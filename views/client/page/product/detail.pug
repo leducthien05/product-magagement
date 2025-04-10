@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+
+block main
+  div(class="container my-4 px-3")
+    div(class="row")
+      div(class="col-md-8 offset-md-2")
+
+        if(product.title)
+          h1(class="mb-4") #{product.title}
+
+        if(product.price)
+          div(class="mb-4") Giá: 
+            b #{product.price}
+
+        if(product.discountPercentage)
+          div(class="mb-4") Giảm giá: 
+            b #{product.discountPercentage}
+
+        if(product.stock)
+          div(class="mb-4") Còn lại: 
+            b #{product.stock}
+
+        if(product.thumbnail)
+          img(
+            src=product.thumbnail
+            style="width: 150px; object-fit: cover"
+            class="mb-4 d-block"
+          )
+
+        if(product.position)
+          div(class="mb-4") Vị trí: 
+            b #{product.position}
+
+        if(product.description)
+          div(class="mb-4") #{product.description}
+
+        a(
+          href=`${prefixAdmin}/product/edit/${product._id}`
+          class="btn btn-warning btn-sm"
+          id-delete=product._id
+        ) Chỉnh sửa
+
+  script(src="/admin/JS/product.js")
+  script(src="/client/JS/script.js")
