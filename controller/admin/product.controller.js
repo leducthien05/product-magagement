@@ -130,9 +130,8 @@ module.exports.createItem = async (req, res) =>{
     else{
         req.body.position = parseInt(req.body.position);
     }
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
+
+    console.log(req.body);
     
     const product = await Product(req.body);
     await product.save();
