@@ -1,13 +1,13 @@
+require('dotenv').config();
 //Upload ảnh lên online
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
 
 cloudinary.config({
-    cloud_name: "dxskot1nf",
-    api_key: "147625819752181",
-    api_secret: "-WZOSG_T3ncgbjAXQnIzvLUUWFQ"
-})
-
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 module.exports.uploadonline = (req, res, next)=>{
     if(req.file){

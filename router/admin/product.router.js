@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
-const uploadCloud = require("../../middleware/admin/uploadcloud.middleware")
+
 //Upload ảnh vào file upload
 // const storage = require("../../helper/storageMulter");
 //const upload = multer({ storage: storage() });
  const upload = multer();
-
+ const uploadCloud = require("../../middleware/admin/uploadcloud.middleware");
 const controller = require("../../controller/admin/product.controller");
 const validateProduct = require("../../validate/admin/product.validate");
 
