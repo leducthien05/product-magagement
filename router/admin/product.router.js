@@ -41,6 +41,7 @@ router.get('/edit/:id', controller.edit);
 //router edit
 router.patch('/edit/:id',
     upload.single('thumbnail'),
+    uploadCloud.uploadonline,
     validateProduct.createItem,
     controller.editItem
 );

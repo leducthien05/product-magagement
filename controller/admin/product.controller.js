@@ -27,7 +27,16 @@ module.exports.product = async (req, res)=>{
     }
     const paginationPage = ProductPageModule(objectPagination, req.query, countProduct );
     //console.log(paginationPage.numberPage);
-    
+
+    //sort
+    let sort = {};
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+    }
+    else{
+        sort.position = "desc";
+    }
+    //end sort
     //Tìm kiếm sản phẩm
     const search = Search(req.query);
     if(search.regex){
@@ -36,7 +45,7 @@ module.exports.product = async (req, res)=>{
     //console.log(search);
 
     //Hiển thị sản phẩm ra giao diện
-    const productPage = await Product.find(find).sort({position: "desc"}).limit(paginationPage.limitItem).skip(paginationPage.skip);
+    const productPage = await Product.find(find).sort(sort).limit(paginationPage.limitItem).skip(paginationPage.skip);
     res.render('admin/page/product/index', {
         titlePage: "Trang danh sách sản phẩm",
         product: productPage,

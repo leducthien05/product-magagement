@@ -170,3 +170,35 @@ if(uploadImage){
         }
     });
 }
+
+
+//Sắp xếp sản phẩm
+const sortProduct = document.querySelector("[sort]");
+if(sortProduct){
+    let url = new URL(window.location.href);
+    const selectItem = document.querySelector("[sort-select]");
+    const sortClear = document.querySelector("[sort-clear]");
+    selectItem.addEventListener("change", (e)=>{
+        const value = e.target.value;
+        let [sortKey, sortValue] = value.split("-");
+        
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+        window.location.href = url.href;
+    });
+    sortClear.addEventListener("click", ()=>{
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href
+    });
+
+    //option 
+    const value1 = url.searchParams.get("sortKey");
+    const value2 = url.searchParams.get("sortValue");
+    const sortString = `${value1}-${value2}`;
+    if(sortString){
+        const sortSelected = selectItem.querySelector(`option[value='${sortString}']`);
+        sortSelected.selected = true;
+    }
+    
+}
