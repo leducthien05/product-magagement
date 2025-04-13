@@ -13,6 +13,7 @@ module.exports.uploadonline = (req, res, next)=>{
     if(req.file){
     let streamUpload = (req) => {
         return new Promise((resolve, reject) => {
+            //Gửi dữ liệu lên Cloudinary bằng stream
             let stream = cloudinary.uploader.upload_stream(
                 (error, result) => {
                 if (result) {
@@ -22,6 +23,7 @@ module.exports.uploadonline = (req, res, next)=>{
                 }
                 }
             );
+            //Tạo stream từ buffer (tức là nội dung file)
             streamifier.createReadStream(req.file.buffer).pipe(stream);
         });
     };
