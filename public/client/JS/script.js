@@ -197,8 +197,8 @@ if(sortProduct){
     const value2 = url.searchParams.get("sortValue");
     const sortString = `${value1}-${value2}`;
     if(sortString){
-        const sortSelected = selectItem.querySelector(`option[value='${sortString}']`);
-        sortSelected.selected = true;
+        const optionSeleted = selectItem.querySelector(`option[value='${sortString}']`);
+        optionSeleted.selected = true;
     }
     
 }
