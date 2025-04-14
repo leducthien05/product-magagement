@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 const router = require("./router/client/index.router");
@@ -15,6 +16,11 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 
+//Tinymce
+app.use('/tinymce', 
+  express.static(path.join(__dirname, 'node_modules', 'tinymce'))
+);
+//Flash
 app.use(cookieParser("thienle25"));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
