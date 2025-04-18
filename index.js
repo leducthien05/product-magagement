@@ -28,8 +28,8 @@ app.use(flash());
 //local systemConfig variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 database.connect();
-app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 //Cấu hình PUG vào dự án
     //deploy 
     app.set('views', `${__dirname}/views`);// truy cập vào folder tên là views. Thư mục chứa các file template

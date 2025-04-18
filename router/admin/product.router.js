@@ -13,7 +13,6 @@ const validateProduct = require("../../validate/admin/product.validate");
 
 router.get('/', controller.product);
 
-//router.get('/:id', controller.productItem);
 
 //router changeActive, ":" dùng để chuyển data động
 router.patch('/changeStatus/:status/:id', controller.changeStatus);
@@ -48,5 +47,6 @@ router.patch('/edit/:id',
 
 //router detail
 router.get('/detail/:id', controller.detail);
+
 
 module.exports = router; 

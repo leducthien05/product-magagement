@@ -58,12 +58,14 @@ module.exports.product = async (req, res)=>{
 //[PATCH] /admin/product/changeStatus/:status/:id
 module.exports.changeStatus = async (req, res)=>{
     console.log(req.params);//params: là biến chứa các dữ liệu động 
+    console.log(req.params.id);
+    console.log(req.params.status);
     const status = req.params.status;
     const id = req.params.id;
 
     await Product.updateOne({_id: id}, {status:status});
     req.flash("success", "Cập nhập trạng thái sản phẩm thành công");
-    res.redirect('back');
+    res.send("ok");
 }
 
 //[PATCH] /admin/product/change-multi

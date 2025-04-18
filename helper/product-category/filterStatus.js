@@ -1,5 +1,4 @@
-module.exports = (query) => {
-    //Xây dựng bộ lọc button
+module.exports = (query)=>{
     let filterStatus = [
         {
             name: "Tất cả",
@@ -15,22 +14,16 @@ module.exports = (query) => {
             name: "Không hoạt động",
             status: "inactive",
             class: ""
-        },
-        {
-            name: "Đã xóa",
-            status: "deleted",
-            class: ""
         }
-    ]
-    //Xác định trạng thái của sản phẩm để in ra trình duyệt
+    ];
     if(query.status){
-        const index = filterStatus.findIndex(item => item.status == query.status);
+        const index = filterStatus.findIndex(item =>item.status == query.status);
         filterStatus[index].class = "active";
     }
     else{
-        const index = filterStatus.findIndex(item => item.status == "");
+        const index = filterStatus.findIndex(item =>item.status == "");
         filterStatus[index].class = "active";
     }
-    
+
     return filterStatus;
 }

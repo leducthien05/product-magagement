@@ -49,18 +49,16 @@ if (formSearch) {
 //Pagination
 //Lấy tất cả các button có thuộc tính button-page
 const PageLink = document.querySelectorAll("[button-page]");
-    if(PageLink){
-        PageLink.forEach((button) => {
-            button.addEventListener('click', ()=>{
-
-                let url = new URL(window.location.href);
-                const indexpage = button.getAttribute("button-page");
-                url.searchParams.set("page", indexpage);
-
-                window.location.href = url.href;
-            })
+if(PageLink){
+    PageLink.forEach((button) => {
+        button.addEventListener('click', ()=>{
+            let url = new URL(window.location.href);
+            const indexpage = button.getAttribute("button-page");
+            url.searchParams.set("page", indexpage);
+            window.location.href = url.href;
         })
-    }
+    })
+}
 
 //Checkbox product
 const checkboxMulti = document.querySelector("[checkbox-multi]");

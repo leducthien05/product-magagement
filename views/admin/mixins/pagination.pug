@@ -8,7 +8,7 @@ mixin pagiantion(pagination)
                         button-page = pagination.indexPage - 1
                     ) Trang trước
             - for (var i = 1; i <= pagination.numberPage; i++)
-                li(class=`page-link ${pagination.indexPage == i ? "active" : ""}`)
+                li(class=`page-item ${pagination.indexPage == i ? "active" : ""}`)
                     button(
                         class="page-link"
                         button-page = i
