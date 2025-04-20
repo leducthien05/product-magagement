@@ -6,7 +6,8 @@ const pagination = require("../../helper/product-category/pagination");
 //[GET] admin/product-category
 module.exports.index = async (req, res)=>{
     let find ={
-        deleted: false
+        deleted: false,
+        
     }
     //Hiện thị trạng thái sản phẩm
     const filterStatus = filterStatus1(req.query);
@@ -23,14 +24,38 @@ module.exports.index = async (req, res)=>{
     //Kết thúc tìm kiếm sản phẩm
 
     //Phân trang
-    const countRecord = await ProductCategory.countDocuments(find);
+    const countRecord = await ProductCategory.countDocuments();
     const objectPagination = pagination(req.query, countRecord);
     //Kết thúc phân trang
 
-    const record = await ProductCategory.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
+    //Hiện thị sản phẩm theo tiêu chí
+    let sortProduct = {};
+    if(req.query.sortKey && req.query.valueKey){
+        sortProduct[req.query.sortKey] = req.query.valueKey;
+    }
+    else{
+        sortProduct.position = "asc";
+    }
+    //Kết thúc hiển thị sản phẩm theo tiêu chí
+
+    function createTree(arr, parent_id = "") {
+        const tree = [];
+        arr.forEach(item => {
+            if (item.parent_id == parent_id) {
+                const newItem = item;
+                const children = createTree(arr, item._id);
+                newItem.children = children.length > 0 ? children : undefined;
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }    
+    const record = await ProductCategory.find(find).sort(sortProduct).limit(objectPagination.limitItem).skip(objectPagination.skip);
+    const newrecord = createTree(record);
+    console.log(newrecord);
     res.render('admin/page/product-category/index', {
         titlePage:"Trang danh mục sản phẩm",
-        productCategory : record,
+        productCategory : newrecord,
         filterStatus: filterStatus,
         keyword: searchProduct.key,
         pagination: objectPagination
@@ -54,13 +79,37 @@ module.exports.changeMulti = async (req, res)=>{
 }
 
 module.exports.create = async (req, res)=>{
+    let find = {
+        deleted: false
+    };
+    let cnt = 0;
+    function createTree(arr, parent_id = ""){
+        const tree = [];
+        arr.forEach(item => {
+            if(item.parent_id == parent_id){
+                cnt++;
+                const newItem = item;
+                newItem.index = cnt;
+                const children = createTree(arr, item._id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+                
+            }
+        });
+        return tree;
+    }
+    const records = await ProductCategory.find(find);
+    const newrecord = createTree(records);
+    console.log(newrecord);
     res.render("admin/page/product-category/create", {
-        pageItem:"Trang tạo danh mục sản phẩm"
+        pageItem:"Trang tạo danh mục sản phẩm",
+        records: newrecord
     });
 }
 
 module.exports.createItem = async (req, res)=>{
-
     if(req.body.position == ""){
         const countProduct = await ProductCategory.countDocuments();
         req.body.position = countProduct + 1;

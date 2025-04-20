@@ -1,7 +1,7 @@
 module.exports = (query, countRecord)=>{
     let objectPage = {
         indexPage: 1,
-        limitItem: 1
+        limitItem: countRecord
     }
     if(query.page){
         objectPage.indexPage = Number(query.page); 
