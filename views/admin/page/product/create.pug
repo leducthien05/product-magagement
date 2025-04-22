@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
 include ../../mixins/alert.pug
+include ../../mixins/children.pug
 
 block main 
     h1(class="mb-4") Trang tạo mới sản phẩm
@@ -20,9 +21,18 @@ block main
                 type="text"
                 class="form-control"
                 id="title"
-                name="title"
-                
+                name="title" 
             )
+        div(class="form-group")
+            label(for="product_category_id") Danh mục cha
+            select(
+                name="product_category_id"
+                id="product_category_id"
+                class="form-control"
+            )
+                option(value="") --Chọn sản phẩm--
+                - if(record)
+                    +children(record)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(

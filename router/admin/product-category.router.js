@@ -25,6 +25,23 @@ router.post('/create',
     controller.createItem
 );
 
+//[GET] admin/product-category/dtail/:id
+router.get('/detail/:id', controller.detail);
+
+//[GET] admin/product-category/edit/:id
+router.get('/edit/:id', controller.edit);
+
+//[POST] admin/product-category/create
+router.patch('/edit/:id',
+    upload.single("thumbnail"),
+    validateProduct.createItem,
+    uploadCloud.uploadonline,
+    controller.editItem
+);
+
+//[GET] admin/product-category/404
+router.get('/404', controller.page404);
+
 
 
 

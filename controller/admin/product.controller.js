@@ -1,4 +1,5 @@
 const Product = require("../../model/product.model");
+const ProductCategory = require("../../model/product-category.model");
 const filterStatus = require("../../helper/filterStatus");
 const Search = require("../../helper/search");
 const ProductPageModule = require("../../helper/pagination");
@@ -44,6 +45,7 @@ module.exports.product = async (req, res)=>{
     }
     //console.log(search);
 
+    
     //Hiển thị sản phẩm ra giao diện
     const productPage = await Product.find(find).sort(sort).limit(paginationPage.limitItem).skip(paginationPage.skip);
     res.render('admin/page/product/index', {
@@ -51,7 +53,7 @@ module.exports.product = async (req, res)=>{
         product: productPage,
         filterStatus: filter,
         keyword: search.keyword,
-        pagination: paginationPage
+        pagination: paginationPage,
     });
 } 
 
@@ -121,15 +123,33 @@ module.exports.deleteItem = async (req, res)=>{
 
 //[GET] /admin/product/create
 module.exports.create = async (req, res) =>{
+    const find ={
+        deleted: false
+    }
+    function CreateTree(arr, parent_id = ""){
+        const tree = [];
+        arr.forEach(item => {
+            if(item.parent_id == parent_id){
+                const newItem = item;
+                const children = CreateTree(arr, item.id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }
+    const product = await ProductCategory.find(find);
+    const record = CreateTree(product);
     res.render("admin/page/product/create", {
-        pageItem:"Trang tạo sản phẩm"
+        pageItem:"Trang tạo sản phẩm",
+        record: record
     });
 }
 
 //[POST] /admin/product/create
-module.exports.createItem = async (req, res) =>{
-    
-    console.log(req.file);
+module.exports.createItem = async (req, res) =>{x
     req.body.price = parseFloat(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
@@ -151,7 +171,25 @@ module.exports.createItem = async (req, res) =>{
 
 //[GET] /admin/product/edit
 module.exports.edit = async (req, res) =>{
-    console.log(req.params);
+    const find ={
+        deleted: false
+    }
+    function CreateTree(arr, parent_id = ""){
+        const tree = [];
+        arr.forEach(item => {
+            if(item.parent_id == parent_id){
+                const newItem = item;
+                const children = CreateTree(arr, item.id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }
+    const product = await ProductCategory.find(find);
+    const record = CreateTree(product);
     try {
         const find= {
             deleted: false,
@@ -161,7 +199,8 @@ module.exports.edit = async (req, res) =>{
         console.log(product);
         res.render('admin/page/product/edit', {
             titlePage: "Trang chỉnh sửa sản phẩm",
-            product: product
+            product: product,
+            record: record
         }); 
     } catch (error) {
         req.flash("error", "Không có sản phâm như vậy");
@@ -178,10 +217,6 @@ module.exports.editItem = async (req, res) =>{
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
-
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
 
     try {
         await Product.updateOne({_id : id}, req.body);

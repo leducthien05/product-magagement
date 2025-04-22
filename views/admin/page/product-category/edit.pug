@@ -11,11 +11,11 @@ block main
     +alert-error(5000)
     +alert-wart(5000)
     form(
-        action = `${prefixAdmin}/product/edit/${product.id}?_method=PATCH`
+        action = `${prefixAdmin}/product-category/edit/${product.id}?_method=PATCH`
         id="form-edit-product"
         method="POST"
         enctype="multipart/form-data"
-    )
+    )   
         div(class="form-group")
             label(for="title") Tiêu đề
             input(
@@ -26,15 +26,15 @@ block main
                 value=product.title 
             )
         div(class="form-group")
-            label(for="product_category_id") Danh mục cha
+            label(for="parent_id") Danh mục cha
             select(
-                name="product_category_id"
-                id="product_category_id"
+                name="parent_id"
+                id="parent_id"
                 class="form-control"
             )
-                option(value="") --Chọn sản phẩm--
+                option(value=`${product.parent_id}`)= "-- Chọn sản pẩm cha --" 
                 - if(record)
-                    +children(record)
+                    +children(record, 1, product.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -43,27 +43,7 @@ block main
                 name="description"
                 rows = "5"
                
-            )= product.description
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value=product.price
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                min="0"
-                value=product.discountPercentage
-            )
+        )= product.description
         div(class="form-group")
             label(for="stock") Số lượng
             input(

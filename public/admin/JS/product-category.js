@@ -49,3 +49,5 @@ if(pagination){
         });
     });
 }
+
+//Xóa sản phẩm

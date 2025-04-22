@@ -28,7 +28,7 @@ app.use(flash());
 //local systemConfig variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 database.connect();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 //Cấu hình PUG vào dự án
     //deploy 
