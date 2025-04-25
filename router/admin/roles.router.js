@@ -16,6 +16,12 @@ router.post("/create", controller.createItem);
 router.get("/edit/:id", controller.edit);
 
 //[PATCH] admin/roles/edit/:id
-router.patch("/edit/:id", controller.editItem)
+router.patch("/edit/:id", controller.editItem);
+
+//[GET] admin/roles/permission
+router.get("/permission", controller.permission);
+
+//[PATCH] admin/roles/permission
+router.patch("/permission", controller.permissionItem);
 
 module.exports = router;

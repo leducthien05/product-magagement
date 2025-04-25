@@ -1,7 +1,7 @@
 const Permission = require("../../model/role.model");
 const systemConfig = require("../../config/systems");
 
-//[GET] admin/role
+//[GET] admin/roles
 module.exports.index = async (req, res)=>{
     const find = {
         deleted: false
@@ -13,14 +13,14 @@ module.exports.index = async (req, res)=>{
     })
 }
 
-//[GET] admin/role/create
+//[GET] admin/roles/create
 module.exports.create = async (req, res)=>{
     res.render('admin/page/roles/create', {
         titlePage: "Trang thêm nhóm quyền"
     });
 }
 
-//[POST] admin/role/create
+//[POST] admin/roles/create
 module.exports.createItem = async (req, res)=>{
     try {
         const newRole = new Permission(req.body);
@@ -32,7 +32,7 @@ module.exports.createItem = async (req, res)=>{
   
 }
 
-//[GET] admin/role/edit
+//[GET] admin/roles/edit
 module.exports.edit = async (req, res)=>{
     try {
         const id = req.params.id
@@ -51,7 +51,7 @@ module.exports.edit = async (req, res)=>{
     
 }
 
-//[PATCH] admin/role/edit/:id
+//[PATCH] admin/roles/edit/:id
 module.exports.editItem = async (req, res)=>{
     const id = req.params.id;
     console.log(req.body);
@@ -59,4 +59,32 @@ module.exports.editItem = async (req, res)=>{
     console.log("Cập nhật thành công");
     res.redirect(`${systemConfig.prefixAdmin}/roles`);
 
+}
+
+//[GET] admin/roles/permission
+module.exports.permission = async (req, res)=>{
+    let find ={
+        deleted: false
+    };
+    const record = await Permission.find(find);
+    res.render('admin/page/roles/permission', {
+        titlePage: "Trang phân quyền", 
+        record: record
+    });
+}
+
+//[PATCH] admin/roles/edit/:id
+module.exports.permissionItem = async (req, res)=>{
+    try {
+        const result = JSON.parse(req.body.permission);
+        for (let item of result){
+            await Permission.updateOne({_id: item.id}, {permission: item.permission});
+        }
+        req.flash("success","Cập nhật quyền thành công");
+        res.redirect("back");
+    } catch (error) {
+        res.render('admin/page/roles/404', {
+            titlePage: "404"
+        })
+    }
 }
