@@ -15,7 +15,7 @@ if(tablePermission){
                 inputs.forEach(input =>{
                     const id = input.value;
                     permission.push({
-                        id: id,
+                        id: id, 
                         permission: []
                     });
                 });
