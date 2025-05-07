@@ -96,6 +96,7 @@ module.exports.editItem = async (req, res)=>{
             res.redirect(`${systemConfig.prefixAdmin}/accounts`);
         }
     } catch (error) {
+        console.log(error);
         res.redirect("back");
     }
 }

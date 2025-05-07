@@ -4,9 +4,25 @@ const systemConfig = require("../../config/systems");
 
 
 module.exports.login = async (req, res)=>{
-    res.render("admin/page/auth/login", {
-        titlePage: "Đăng nhập"
-    })
+    console.log(req.cookies.token);
+    if(req.cookies.token){
+        const user = await Accounts.findOne({
+            token: req.cookies.token
+        });
+        if(user){
+            res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+        }
+        else{
+            res.render("admin/page/auth/login", {
+            titlePage: "Đăng nhập"
+        });
+        }
+    }
+    else{
+        res.render("admin/page/auth/login", {
+            titlePage: "Đăng nhập"
+        });
+    } 
 }
 
 module.exports.loginAccount = async (req, res)=>{
@@ -26,6 +42,7 @@ module.exports.loginAccount = async (req, res)=>{
         }
 
         if(md5(password) != user.password){
+            
             req.flash("error", "Sai mật khẩu");
             res.redirect("back");
             return;
