@@ -22,7 +22,14 @@ app.use('/tinymce',
 );
 //Flash
 app.use(cookieParser("thienle25"));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+  secret: 'chuoi_bi_mat_bat_ky', // nên đưa vào biến môi trường
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60 * 60 * 1000 // 1 giờ
+  }
+}));
 app.use(flash());
 
 //local systemConfig variable

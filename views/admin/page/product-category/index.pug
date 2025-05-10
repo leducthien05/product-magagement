@@ -8,61 +8,64 @@ include ../../mixins/sortProduct.pug
 include ../../mixins/tableChildren.pug
 
 block main 
-    h1 Trang danh mục sản phẩm
-    +alert-success("5000")
-    +alert-error("5000")
-    .card.mb-3 
-        .card-header Bộ lọc và tìm kiếm 
-        .card-body
-            .row  
-                .col-6
-                    +filter-Status(filterStatus)
-                .col-6 
-                    +Search(keyword)
-    .card.mb-3
-        .card-header Sắp xếp
-        .card-body
-            .row
-                .col-4
-                    +sortProduct
-    .card.mb-3 
-        .card-header Danh sách
+    if (role.permission.includes("products-category_view"))
+
+        h1 Trang danh mục sản phẩm
+        +alert-success("5000")
+        +alert-error("5000")
+        .card.mb-3 
+            .card-header Bộ lọc và tìm kiếm 
             .card-body
                 .row  
-                    .col-8 
-                        +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
-                    .col-4 
-                        a(
-                            href=`${prefixAdmin}/product-category/create`
-                            class="btn btn-outline-success"
-                        ) + Thêm mới  
+                    .col-6
+                        +filter-Status(filterStatus)
+                    .col-6 
+                        +Search(keyword)
+        .card.mb-3
+            .card-header Sắp xếp
+            .card-body
+                .row
+                    .col-4
+                        +sortProduct
+        .card.mb-3 
+            .card-header Danh sách
+                .card-body
+                    .row  
+                        .col-8 
+                            +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
+                        .col-4 
+                            if (role.permission.includes("products-category_create"))
+                                a(
+                                    href=`${prefixAdmin}/product-category/create`
+                                    class="btn btn-outline-success"
+                                ) + Thêm mới  
 
-                table(
-                    class="table-hover table-sm"
-                    checkbox-multi
-                )
-                    thead 
-                        tr 
-                            th 
-                                input(
-                                    type="checkbox"
-                                    name="checkall"
-                                )
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Vị trí
-                            th Trạng thái
-                            th Hành động
-                    tbody
-                        +tableChildren(productCategory)
-    +pagiantion(pagination)
-    form(
-        method="POST"
-        action
-        path=`${prefixAdmin}/product-category/changeStatus`
-        form-change-status
-    )
-    script(src="/admin/JS/product-category.js") 
-    script(src="/client/JS/script.js")   
-    script(src="/admin/JS/record.js")              
+                    table(
+                        class="table-hover table-sm"
+                        checkbox-multi
+                    )
+                        thead 
+                            tr 
+                                th 
+                                    input(
+                                        type="checkbox"
+                                        name="checkall"
+                                    )
+                                th STT
+                                th Hình ảnh
+                                th Tiêu đề
+                                th Vị trí
+                                th Trạng thái
+                                th Hành động
+                        tbody
+                            +tableChildren(productCategory)
+        +pagiantion(pagination)
+        form(
+            method="POST"
+            action
+            path=`${prefixAdmin}/product-category/changeStatus`
+            form-change-status
+        )
+        script(src="/admin/JS/product-category.js") 
+        script(src="/client/JS/script.js")   
+        script(src="/admin/JS/record.js")              

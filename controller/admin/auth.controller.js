@@ -53,7 +53,7 @@ module.exports.loginAccount = async (req, res)=>{
             res.redirect("back");
             return;
         }
-
+        
         res.cookie("token", user.token);
         res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
         
@@ -66,5 +66,4 @@ module.exports.loginAccount = async (req, res)=>{
 module.exports.logout = async (req, res)=>{
     res.clearCookie("token");
     res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
-
 }
