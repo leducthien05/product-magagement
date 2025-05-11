@@ -196,7 +196,9 @@ if(sortProduct){
     const sortString = `${value1}-${value2}`;
     if(sortString){
         const optionSeleted = selectItem.querySelector(`option[value='${sortString}']`);
-        optionSeleted.selected = true;
+        if(optionSeleted){
+            optionSeleted.selected = true;
+        }
     }
     
 }
@@ -232,14 +234,14 @@ console.log(pathDelete);
 if(buttonDelete.length > 0){
     buttonDelete.forEach(button =>{
         button.addEventListener("click", ()=>{
-        const isConfirm = confirm("OK");
-        if(isConfirm){
-            const id = button.getAttribute("id-delete");
-            const action = `${pathDelete}/${id}?_method=DELETE`;
-            formDelete.action = action;
-            console.log(action);
-            formDelete.submit();
-        }
-        })
+            const isConfirm = confirm("OK");
+            if(isConfirm){
+                const id = button.getAttribute("id-delete");
+                const action = `${pathDelete}/${id}?_method=DELETE`;
+                formDelete.action = action;
+                console.log(action);
+                formDelete.submit();
+            }
+        });
     });
 }

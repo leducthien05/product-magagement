@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
 include ../../mixins/alert.pug
 include ../../mixins/sortProduct.pug
+include ../../mixins/date.pug
 
 block main 
     if (role.permission.includes("products_view"))
@@ -54,6 +55,7 @@ block main
                                 th Tiêu đề
                                 th Giá
                                 th Vị trí
+                                th Người tạo
                                 th Trạng thái
                                 th Hành động
                         tbody
@@ -84,6 +86,10 @@ block main
                                             min="1"
                                             style="width: 60px"
                                         )
+                                    td 
+                                        p #{item.userCreate}
+                                        +Day(item.createdBy.createAt)
+
                                     td 
                                         if (role.permission.includes("products-category_edit"))
                                             if(item.status == "active")
@@ -134,14 +140,14 @@ block main
                                             ) Xóa
 
         form(action
-        method="POST"
-        id="form-change-status"
-        data-path=`${prefixAdmin}/product/changeStatus`
+            method="POST"
+            id="form-change-status"
+            data-path=`${prefixAdmin}/product/changeStatus`
         ) 
         form(action
-        method="POST"
-        id="form-delete"
-        data-path=`${prefixAdmin}/product/delete`
+            method="POST"
+            id="form-delete"
+            data-path=`${prefixAdmin}/product/delete`
         )                                   
         +pagiantion(pagination)
 

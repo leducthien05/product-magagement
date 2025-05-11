@@ -13,6 +13,13 @@ const Schema = new mongoose.Schema({
         type: String,
         slug: "title"
     },
+    createdBy: {
+        account_ID: String,
+        createAt: {
+            type: String,
+            default: Date.now
+        }
+    },
     deleted: {
         type: Boolean,
         default: false

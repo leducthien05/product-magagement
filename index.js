@@ -15,12 +15,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
+const moment = require('moment');
+
+database.connect();
+
 
 //Tinymce
 app.use('/tinymce', 
   express.static(path.join(__dirname, 'node_modules', 'tinymce'))
 );
+
 //Flash
+app.use(flash());
+
+//Cookie and Session
 app.use(cookieParser("thienle25"));
 app.use(session({
   secret: 'chuoi_bi_mat_bat_ky', // nên đưa vào biến môi trường
@@ -30,24 +38,27 @@ app.use(session({
     maxAge: 60 * 60 * 1000 // 1 giờ
   }
 }));
-app.use(flash());
 
-//local systemConfig variable
+
+//App Locals Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-database.connect();
+app.locals.moment = moment;
+app.use(express.static(`${__dirname}/public`));
+
+//Method and Req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
 //Cấu hình PUG vào dự án
     //deploy 
     app.set('views', `${__dirname}/views`);// truy cập vào folder tên là views. Thư mục chứa các file template
     app.set('view engine', 'pug');// loại template engine là: pug
-    
-    router(app);
-    routeradmin(app);
-  
-//Deploy
-app.use(express.static(`${__dirname}/public`));
 
+//Router
+router(app);
+routeradmin(app);
+  
+//Lắng nghe sự thay đổi của dự án
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });

@@ -1,9 +1,11 @@
 const Product = require("../../model/product.model");
+const Accounts = require("../../model/account.model")
 const ProductCategory = require("../../model/product-category.model");
 const filterStatus = require("../../helper/filterStatus");
 const Search = require("../../helper/search");
 const ProductPageModule = require("../../helper/pagination");
 const systemConfig = require("../../config/systems");
+
 
 //[GET] /admin/product
 module.exports.product = async (req, res)=>{ 
@@ -45,15 +47,29 @@ module.exports.product = async (req, res)=>{
     }
     //console.log(search);
 
-    
-    //Hiển thị sản phẩm ra giao diện
+    //Lấy danh sách sản phẩm
     const productPage = await Product.find(find).sort(sort).limit(paginationPage.limitItem).skip(paginationPage.skip);
+
+    //Người tạo sản phẩm lưu vào lịch sử sửa đổi trang web
+    
+    for(const product of productPage){
+        const user = await Accounts.findOne({
+            deleted: false,
+            _id: product.createdBy.account_ID
+        });
+
+        if(user){
+            product.userCreate = user.fullname;
+        }
+    }
+
+    //Hiển thị sản phẩm ra giao diện
     res.render('admin/page/product/index', {
         titlePage: "Trang danh sách sản phẩm",
         product: productPage,
         filterStatus: filter,
         keyword: search.keyword,
-        pagination: paginationPage,
+        pagination: paginationPage
     });
 } 
 
@@ -67,7 +83,7 @@ module.exports.changeStatus = async (req, res)=>{
 
     await Product.updateOne({_id: id}, {status:status});
     req.flash("success", "Cập nhập trạng thái sản phẩm thành công");
-    res.send("ok");
+    res.redirect("back");
 }
 
 //[PATCH] /admin/product/change-multi
@@ -90,7 +106,14 @@ module.exports.changeMulti = async (req, res) =>{
             break;
         case "deleted":
             await Product.updateMany(
-                {_id: {$in: ids}}, {deleted: true}
+                {_id: {$in: ids}}, 
+                {
+                    deleted: true,
+                    deletedBy: {
+                        deletedAt: new Date(),
+                        account_ID: res.locals.user.id
+                    }
+                }
             )
             break;
         case "changePosition":
@@ -115,7 +138,11 @@ module.exports.deleteItem = async (req, res)=>{
     //await Product.deleteOne({_id: id});
     await Product.updateOne({_id: id}, {
         deleted: deleted,
-        deletedAt: new Date()//Lấy thời gian xóa sản phẩm
+        // deletedAt: new Date()//Lấy thời gian xóa sản phẩm
+        deletedBy: {
+            account_ID: res.locals.user.id,
+            deletedAt: new Date()
+        }
     });
     req.flash("success", "Đã xóa sản phẩm");
     res.redirect('back');
@@ -162,8 +189,10 @@ module.exports.createItem = async (req, res) =>{
         req.body.position = parseInt(req.body.position);
     }
 
-    console.log(req.body);
-    
+    req.body.createdBy = {
+        account_ID: res.locals.user.id
+    };
+
     const product = await Product(req.body);
     await product.save();
     res.redirect(`${systemConfig.prefixAdmin}/product`);
