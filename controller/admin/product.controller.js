@@ -267,7 +267,6 @@ module.exports.edit = async (req, res) =>{
             _id: req.params.id
         }
         const product = await Product.findOne(find);
-        console.log(product);
         res.render('admin/page/product/edit', {
             titlePage: "Trang chỉnh sửa sản phẩm",
             product: product,
