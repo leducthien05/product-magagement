@@ -1,3 +1,5 @@
+include ../mixin/sub-menu.pug
+
 header(class="header bg-primary text-white py-3 mb-4")
   .container
     .row(class="align-items-center")
@@ -13,15 +15,18 @@ header(class="header bg-primary text-white py-3 mb-4")
             nav(class="inter-menu")
                 ul(class="nav justify-content-end")
                     li(class="nav-item")
-                    a(
-                        href="/" 
-                        class="nav-link text-white"
-                    ) Trang chủ
-                    li(class="nav-item")
+                        a(
+                            href="/" 
+                            class="nav-link text-white"
+                        ) Trang chủ
+                    li(class= "sub-menu" )
                         a(
                             href="/product"
                             class="nav-link text-white"
-                        ) Sản phẩm
+                        ) Sản phẩm 
+                        - const pathProdutClient = "/products"
+                        +sub-menu(productMiddleware, pathProdutClient)
+                        
                     li(class="nav-item")
                         a(
                             href="/admin/dashboard"

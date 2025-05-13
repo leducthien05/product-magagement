@@ -5,8 +5,8 @@ const multer = require('multer');
 //Upload ảnh vào file upload
 // const storage = require("../../helper/storageMulter");
 //const upload = multer({ storage: storage() });
- const upload = multer();
- const uploadCloud = require("../../middleware/admin/uploadcloud.middleware");
+const upload = multer();
+const uploadCloud = require("../../middleware/admin/uploadcloud.middleware");
 const controller = require("../../controller/admin/product.controller");
 const validateProduct = require("../../validate/admin/product.validate");
 
