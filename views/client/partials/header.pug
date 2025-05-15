@@ -1,34 +1,34 @@
 include ../mixin/sub-menu.pug
 
 header(class="header bg-primary text-white py-3 mb-4")
-  .container
-    .row(class="align-items-center")
-        .col-md-3
-            .inter-logo
-                a(href="/")
-                img(
-                    src="/uploads/JS.png"
-                    alt="Logo"
-                    width="100"
-                )
-        .col-md-9
-            nav(class="inter-menu")
-                ul(class="nav justify-content-end")
-                    li(class="nav-item")
-                        a(
-                            href="/" 
-                            class="nav-link text-white"
-                        ) Trang chủ
-                    li(class= "sub-menu" )
-                        a(
-                            href="/product"
-                            class="nav-link text-white"
-                        ) Sản phẩm 
-                        - const pathProdutClient = "/products"
-                        +sub-menu(productMiddleware, pathProdutClient)
-                        
-                    li(class="nav-item")
-                        a(
-                            href="/admin/dashboard"
-                            class="nav-link text-white"
-                        ) Trang Admin
+    .container
+        .row(class="align-items-center")
+            .col-md-3
+                .inter-logo
+                    a(href="/")
+                    img(
+                        src="/uploads/JS.png"
+                        alt="Logo"
+                        width="100"
+                    )
+            .col-md-9
+                nav(class="inter-menu")
+                    ul(class="nav justify-content-end")
+                        li(class="nav-item")
+                            a(
+                                href="/" 
+                                class="nav-link text-white"
+                            ) Trang chủ
+                        li(class= "sub-menu" )
+                            a(
+                                href="/product"
+                                class="nav-link text-white"
+                            ) Sản phẩm 
+                            - const pathProdutClient = "/products"
+                            +sub-menu(productMiddleware, pathProdutClient)
+                            
+                        li(class="nav-item")
+                            a(
+                                href="/admin/dashboard"
+                                class="nav-link text-white"
+                            ) Trang Admin

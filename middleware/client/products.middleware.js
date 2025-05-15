@@ -9,4 +9,4 @@ module.exports.category = async (req, res, next)=>{
 
     res.locals.productMiddleware = newproductCategory;
     next();
-}
+}   

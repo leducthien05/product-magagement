@@ -114,10 +114,8 @@ module.exports.changeStatus = async (req, res)=>{
 
 //[PATCH] /admin/product/change-multi
 module.exports.changeMulti = async (req, res) =>{
-    console.log(req.body);
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
-    console.log(ids);
 
     const updated  = {
         account_ID: res.locals.user.id,
@@ -219,25 +217,32 @@ module.exports.create = async (req, res) =>{
 
 //[POST] /admin/product/create
 module.exports.createItem = async (req, res) =>{
-    req.body.price = parseFloat(req.body.price);
-    req.body.discountPercentage = parseInt(req.body.discountPercentage);
-    req.body.stock = parseInt(req.body.stock);
+    const permission = res.locals.role.permission;
+    if(permission.includes("products_create")){
+        req.body.price = parseFloat(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.stock = parseInt(req.body.stock);
 
-    if(req.body.position == ""){
-        const countProduct = await Product.countDocuments();
-        req.body.position = countProduct + 1;
+        if(req.body.position == ""){
+            const countProduct = await Product.countDocuments();
+            req.body.position = countProduct + 1;
+        }
+        else{
+            req.body.position = parseInt(req.body.position);
+        }
+
+        req.body.createdBy = {
+            account_ID: res.locals.user.id
+        };
+
+        const product = await Product(req.body);
+        await product.save();
+        res.redirect(`${systemConfig.prefixAdmin}/product`);
+    }else{
+        res.send("Bạn không có quyền")
+        return;
     }
-    else{
-        req.body.position = parseInt(req.body.position);
-    }
-
-    req.body.createdBy = {
-        account_ID: res.locals.user.id
-    };
-
-    const product = await Product(req.body);
-    await product.save();
-    res.redirect(`${systemConfig.prefixAdmin}/product`);
+    
 }
 
 //[GET] /admin/product/edit
@@ -282,6 +287,7 @@ module.exports.edit = async (req, res) =>{
 
 //[PATCH] /admin/product/edit/:id
 module.exports.editItem = async (req, res) =>{
+    console.log(req.body);
     const id = req.params.id;
     req.body.price = parseFloat(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);

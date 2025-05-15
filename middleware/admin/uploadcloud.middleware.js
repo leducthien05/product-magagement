@@ -11,33 +11,33 @@ cloudinary.config({
 
 module.exports.uploadonline = (req, res, next)=>{
     if(req.file){
-    let streamUpload = (req) => {
-        return new Promise((resolve, reject) => {
-            //Gửi dữ liệu lên Cloudinary bằng stream
-            let stream = cloudinary.uploader.upload_stream(
-                (error, result) => {
-                if (result) {
-                    resolve(result);
-                } else {
-                    reject(error);
-                }
-                }
-            );
-            //Tạo stream từ buffer (tức là nội dung file)
-            streamifier.createReadStream(req.file.buffer).pipe(stream);
-        });
-    };
+        let streamUpload = (req) => {
+            return new Promise((resolve, reject) => {
+                //Gửi dữ liệu lên Cloudinary bằng stream
+                let stream = cloudinary.uploader.upload_stream(
+                    (error, result) => {
+                    if (result) {
+                        resolve(result);
+                    } else {
+                        reject(error);
+                    }
+                    }
+                );
+                //Tạo stream từ buffer (tức là nội dung file)
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });
+        };
 
-    async function upload(req) {
-        let result = await streamUpload(req);
-        console.log(result.url);
-        req.body[req.file.fieldname] = result.url;
-        next();
-    }
-    upload(req);
+        async function upload(req) {
+            let result = await streamUpload(req);
+            console.log(result.url);
+            req.body[req.file.fieldname] = result.url;
+            next();
+        }
+        upload(req);
     }
     else{
-    next();            
+        next();            
     }
 }
   
