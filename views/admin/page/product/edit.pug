@@ -34,7 +34,7 @@ block main
             )
                 option(value="") --Chọn sản phẩm--
                 - if(record)
-                    +children(record)
+                    +children(record,1,  product.product_category_id)
         div(class= "form-group form-check form-check-inline")
             input(
                 type="radio"

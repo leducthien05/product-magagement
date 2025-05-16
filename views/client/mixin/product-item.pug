@@ -30,5 +30,8 @@ mixin product-item(item)
                         br
                         | Giảm: 
                         span(class="text-success") #{item.discountPercentage}%
-                    a(href=`/admin/product/detail/${item._id}`, class="btn btn-sm btn-primary mt-2") Xem chi tiết
+                    a(
+                        href=`/product/${item.slug}`
+                        class="btn btn-sm btn-primary mt-2"
+                    ) Xem chi tiết
 

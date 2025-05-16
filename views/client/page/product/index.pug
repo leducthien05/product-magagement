@@ -1,13 +1,12 @@
 extends ../../layouts/default.pug
 include ../../mixin/box-head.pug
 include ../../mixin/LayoutProduct.pug
+include ../../mixin/box-head.pug
 
 block main
     div(class="container my-4 px-3")
         div(class="row mb-3")
         div(class="col-12")
-            h2(
-                class="text-center text-primary"
-            ) Trang danh sách sản phẩm
+            +box-head(title)
         +product-grid(products)
         

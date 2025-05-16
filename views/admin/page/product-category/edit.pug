@@ -32,7 +32,7 @@ block main
                 id="parent_id"
                 class="form-control"
             )
-                option(value=`${product.parent_id}`)  "-- Chọn sản phẩm cha --" 
+                option(value=`${product.parent_id}`)  -- Chọn sản phẩm cha --
                 - if(record)
                     +children(record, 1, product.parent_id)
         div(class="form-group")

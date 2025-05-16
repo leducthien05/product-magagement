@@ -5,39 +5,39 @@ block main
     div(class="row")
       div(class="col-md-8 offset-md-2")
 
-        if(product.title)
-          h1(class="mb-4") #{product.title}
+        if(productDetail.title)
+          h1(class="mb-4") #{productDetail.title}
 
-        if(product.price)
+        if(productDetail.price)
           div(class="mb-4") Giá: 
-            b #{product.price}
+            b #{productDetail.price}
 
-        if(product.discountPercentage)
+        if(productDetail.discountPercentage)
           div(class="mb-4") Giảm giá: 
-            b #{product.discountPercentage}
+            b #{productDetail.discountPercentage}
 
-        if(product.stock)
+        if(productDetail.stock)
           div(class="mb-4") Còn lại: 
-            b #{product.stock}
+            b #{productDetail.stock}
 
-        if(product.thumbnail)
+        if(productDetail.thumbnail)
           img(
-            src=product.thumbnail
+            src=productDetail.thumbnail
             style="width: 150px; object-fit: cover"
             class="mb-4 d-block"
           )
 
-        if(product.position)
+        if(productDetail.position)
           div(class="mb-4") Vị trí: 
-            b #{product.position}
+            b #{productDetail.position}
 
-        if(product.description)
-          div(class="mb-4") #{product.description}
+        if(productDetail.description)
+          div(class="mb-4") #{productDetail.description}
 
         a(
-          href=`${prefixAdmin}/product/edit/${product._id}`
+          href=`${prefixAdmin}/product/edit/${productDetail._id}`
           class="btn btn-warning btn-sm"
-          id-delete=product._id
+          id-delete=productDetail._id
         ) Chỉnh sửa
 
   script(src="/admin/JS/product.js")
