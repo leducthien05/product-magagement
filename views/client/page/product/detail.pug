@@ -1,44 +1,68 @@
 extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
 
 block main
-  div(class="container my-4 px-3")
-    div(class="row")
-      div(class="col-md-8 offset-md-2")
+  .product-detail
+    .container.my-5   
+      .row
+        .col-6
+          .inner-thumb 
+            img(
+              src=productDetail.thumbnail
+              alt = productDetail.title
+            )
+        .col-6
+          if(productDetail.title)
+            h1(class="inner-title") #{productDetail.title}
+          
+          if(productDetail.category)
+            div(class="inner-category")
+              span Danh mục:
+              a(href=`/product/${productDetail.category.slug}`) #{productDetail.category.slug}
 
-        if(productDetail.title)
-          h1(class="mb-4") #{productDetail.title}
+          if(productDetail.price)
+            div(class="mb-4") Giá: 
+              b  #{productDetail.price}
+          
+          if(productDetail.newPrice)
+            div(class="mb-4") Giá mới:  
+              b #{productDetail.newPrice}
 
-        if(productDetail.price)
-          div(class="mb-4") Giá: 
-            b #{productDetail.price}
+          if(productDetail.discountPercentage)
+            div(class="mb-4") Giảm giá: 
+              b #{productDetail.discountPercentage}%
 
-        if(productDetail.discountPercentage)
-          div(class="mb-4") Giảm giá: 
-            b #{productDetail.discountPercentage}
+          if(productDetail.stock)
+            div(class="mb-4") Còn lại: 
+              b #{productDetail.stock}
 
-        if(productDetail.stock)
-          div(class="mb-4") Còn lại: 
-            b #{productDetail.stock}
-
-        if(productDetail.thumbnail)
-          img(
-            src=productDetail.thumbnail
-            style="width: 150px; object-fit: cover"
-            class="mb-4 d-block"
+          if(productDetail.position)
+            div(class="mb-4") Vị trí: 
+              b #{productDetail.position}
+          form(
+            action = `/cart/add/${productDetail.id}`
+            method = "POST"
           )
+            input(
+              class="form-control mb-2"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              max = productDetail.stock
+            )
+            button(
+              type="submit"
+              class="btn btn-success btn-block"
+            ) Thêm vào giỏ hàng
+    hr
 
-        if(productDetail.position)
-          div(class="mb-4") Vị trí: 
-            b #{productDetail.position}
+    .container.my-5 
+      .row 
+        .rol-12
+          +box-head("Mô tả sản phẩm")
+          .inner-desc !{productDetail.description}
 
-        if(productDetail.description)
-          div(class="mb-4") #{productDetail.description}
 
-        a(
-          href=`${prefixAdmin}/product/edit/${productDetail._id}`
-          class="btn btn-warning btn-sm"
-          id-delete=productDetail._id
-        ) Chỉnh sửa
-
-  script(src="/admin/JS/product.js")
-  script(src="/client/JS/script.js")
+    script(src="/admin/JS/product.js")
+    script(src="/client/JS/script.js")
