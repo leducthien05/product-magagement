@@ -9,6 +9,5 @@ module.exports = (query)=>{
         const regex = new RegExp(keySearch.key, "i");
         keySearch.regex = regex;
     }
-
     return keySearch;
 }

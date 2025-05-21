@@ -2,7 +2,6 @@ module.exports = (query)=>{
     let obSearch = {
         keyword: ""
     }
-    // let keyword = "";
     if(query.keyword){
         obSearch.keyword = query.keyword;
 

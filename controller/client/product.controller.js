@@ -58,7 +58,6 @@ module.exports.category = async (req, res)=>{
             slug: req.params.slugCategory
         });
         //Lấy tất cả danh mục của sản phẩm 
-        
         const listCategory = await getCategory.getCategory(category.id);
         const listCategoryId = listCategory.map(item =>item.id);
         const product = await Product.find({
