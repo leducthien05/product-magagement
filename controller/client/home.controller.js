@@ -1,5 +1,6 @@
 const Product = require("../../model/product.model");
 const newPrice = require("../../helper/newPriceProduct");
+const search = require("../../helper/search");
 
 module.exports.index = async (req, res) => {
     //Lấy sản phẩm nổi bật
