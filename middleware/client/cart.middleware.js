@@ -12,7 +12,12 @@ module.exports.cart = async (req, res, next)=>{
             expires: new Date(Date.now() + expireCookie)
         });
     }else{
-        //Lấy rao
+        const cart = await Cart.findOne({
+            _id: req.cookies.cartID
+        });
+        cart.totalQuantity = cart.product.reduce((sum, item)=> sum += item.quantity,0);
+        
+        res.locals.minicart = cart;
     }
     next();
 }

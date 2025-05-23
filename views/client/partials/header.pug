@@ -45,7 +45,8 @@ header(class="header bg-light text-primary py-3 mb-4")
                             ) Sản phẩm 
                             - const pathProdutClient = "/product"
                             +sub-menu(productMiddleware, pathProdutClient)
-                            
+                        li(class="")
+                            a(href="/cart") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
                         li(class="nav-item")
                             a(
                                 href="/admin/dashboard"
