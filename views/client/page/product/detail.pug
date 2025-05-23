@@ -1,7 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixin/box-head.pug
+include ../../mixin/alert.pug
+
 
 block main
+  +alert-success("3000")
   .product-detail
     .container.my-5   
       .row

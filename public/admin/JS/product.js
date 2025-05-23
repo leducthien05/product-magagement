@@ -47,7 +47,6 @@ if (formSearch) {
 }
 
 //Pagination
-//Lấy tất cả các button có thuộc tính button-page
 const PageLink = document.querySelectorAll("[button-page]");
 if(PageLink){
     PageLink.forEach((button) => {
@@ -169,7 +168,6 @@ if(uploadImage){
     });
 }
 
-
 //Sắp xếp sản phẩm
 const sortProduct = document.querySelector("[sort]");
 if(sortProduct){
@@ -202,8 +200,8 @@ if(sortProduct){
     }
     
 }
-// Change status
 
+// Change status
 const ButtonChangeStatus = document.querySelectorAll("[button-change-status]");
 const formChangeStatus = document.querySelector("#form-change-status");
 const path = formChangeStatus.getAttribute("data-path");
