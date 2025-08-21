@@ -205,7 +205,6 @@ if(sortProduct){
 const ButtonChangeStatus = document.querySelectorAll("[button-change-status]");
 const formChangeStatus = document.querySelector("#form-change-status");
 const path = formChangeStatus.getAttribute("data-path");
-console.log(path);
 if(ButtonChangeStatus.length > 0){
     ButtonChangeStatus.forEach(button =>{
         button.addEventListener("click", (e)=>{

@@ -23,6 +23,9 @@ module.exports.product = async (req, res)=>{
         find.status = req.query.status;
     }
     //Phân trang
+    if(req.query.keyword){
+        find.title = req.query.keyword;
+    }
     const countProduct = await Product.countDocuments(find);
     let objectPagination = {
         indexPage: 1,

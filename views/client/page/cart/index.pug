@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+include ../../mixin/alert.pug
+
+block main 
+    +alert-success("3000")
+    +alert-error("5000")
+
+    .container.my-3 
+        .row 
+            .col-12
+                +box-head("Giỏ hàng")
+        .row
+            .col-12
+                table(class = "table table-bordered")
+                    thead
+                        tr
+                        th STT
+                        th Ảnh
+                        th Tên
+                        th Giá
+                        th Số lượng
+                        th Tổng tiền
+                        th Hành động
+                    tbody
+                        tr
+                            td 1
+                            td
+                                img(src="", alt="Sản phẩm 1", width="80px")

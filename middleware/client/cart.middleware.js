@@ -21,3 +21,10 @@ module.exports.cart = async (req, res, next)=>{
     }
     next();
 }
+
+/**
+ * kiểm tra xem có cartID chưa
+ * nếu chưa có thì tạo cartID để tạo giỏ hàng lưu vào database
+ * nếu có rồi thì tìm cartID đó trong database
+ * xong rồi lấy tổng sản phẩm trong giỏ hàng trả ra phía giao diện
+ */

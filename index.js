@@ -1,37 +1,44 @@
+// Load biến môi trường trước tiên
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
-const app = express();
 const mongoose = require('mongoose');
-const router = require("./router/client/index.router");
-const routeradmin = require("./router/admin/index.router");
-const database  = require("./config/database");
-const env = require("dotenv").config();
-const port = process.env.PORT;
-mongoose.connect(process.env.Database);
 
+// Config & Router
+const database = require("./config/database");
 const systemConfig = require("./config/systems");
+const clientRouter = require("./router/client/index.router");
+const adminRouter = require("./router/admin/index.router");
+
+// Middleware
 const methodOverride = require('method-override');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const moment = require('moment');
 
-database.connect();
+const app = express();
+const port = process.env.PORT || 3000;
 
+// -------------------- Database --------------------
+database.connect(); 
+// Hoặc nếu muốn kết nối trực tiếp: mongoose.connect(process.env.DATABASE_URL);
 
-//Tinymce
-app.use('/tinymce', 
-  express.static(path.join(__dirname, 'node_modules', 'tinymce'))
-);
+// -------------------- Static & Public --------------------
+// Tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// Public assets
+app.use(express.static(path.join(__dirname, 'public')));
 
-//Flash
+// -------------------- Middleware --------------------
+// Flash messages
 app.use(flash());
 
-//Cookie and Session
-app.use(cookieParser("thienle25"));
+// Cookie + Session
+app.use(cookieParser(process.env.COOKIE_SECRET || "default_secret"));
 app.use(session({
-  secret: 'chuoi_bi_mat_bat_ky', // nên đưa vào biến môi trường
+  secret: process.env.SESSION_SECRET || "default_session_secret",
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -39,26 +46,24 @@ app.use(session({
   }
 }));
 
-
-//App Locals Variable
-app.locals.prefixAdmin = systemConfig.prefixAdmin;
-app.locals.moment = moment;
-app.use(express.static(`${__dirname}/public`));
-
-//Method and Req.body
-app.use(bodyParser.urlencoded({ extended: true }));
+// Parse form data
+app.use(express.urlencoded({ extended: true }));
+// Override method (PUT, DELETE)
 app.use(methodOverride('_method'));
 
-//Cấu hình PUG vào dự án
-    //deploy 
-    app.set('views', `${__dirname}/views`);// truy cập vào folder tên là views. Thư mục chứa các file template
-    app.set('view engine', 'pug');// loại template engine là: pug
+// -------------------- App Locals --------------------
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
-//Router
-router(app);
-routeradmin(app);
-  
-//Lắng nghe sự thay đổi của dự án
+// -------------------- View Engine --------------------
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// -------------------- Router --------------------
+clientRouter(app);
+adminRouter(app);
+
+// -------------------- Server --------------------
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`🚀 Server is running at http://localhost:${port}`);
 });
