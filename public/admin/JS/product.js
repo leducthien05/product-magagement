@@ -8,7 +8,6 @@ if(buttonStatus.length > 0){
         button.addEventListener("click", ()=>{
             //Lấy tất cả giá trị Attribute: button-status
             const status = button.getAttribute("button-status");
-
             //Cập nhật URL với searchParams
             if(status){
                 url.searchParams.set("status", status);

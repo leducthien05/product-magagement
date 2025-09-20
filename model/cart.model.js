@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
+
+//Tạo giỏ hàng: id người dùng (đã đăng nhập) và mảng các sản phẩm
 const cartSchema = new mongoose.Schema(
     {
         userID: String,

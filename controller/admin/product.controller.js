@@ -51,7 +51,10 @@ module.exports.product = async (req, res)=>{
     //console.log(search);
 
     //Lấy danh sách sản phẩm
-    const productPage = await Product.find(find).sort(sort).limit(paginationPage.limitItem).skip(paginationPage.skip);
+    const productPage = await Product.find(find)
+                                    .sort(sort)
+                                    .limit(paginationPage.limitItem)
+                                    .skip(paginationPage.skip);
 
     //Người tạo sản phẩm lưu vào lịch sử sửa đổi trang web
     

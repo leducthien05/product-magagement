@@ -22,12 +22,15 @@ module.exports.detail = async (req, res) =>{
     try {
         const find = {
             deleted: false,
-            slug: req.params.slugProduct,
+            slug: req.params.slug,
             status: "active"
         }
         
         const product = await Product.findOne(find);
-        
+        if (!product) {
+            return res.redirect('/404'); 
+        }
+        console.log(product);
         if(product.product_category_id){
             const category = await ProductCategory.findOne({
                 deleted: false,

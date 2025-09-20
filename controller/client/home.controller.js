@@ -14,8 +14,9 @@ module.exports.index = async (req, res) => {
     const newRecord = await Product.find({
         deleted: false,
         status: "active",
-    }).sort({position: "desc"}).limit(6);
+    }).sort({position: "desc"}).limit(2);
     const ProductNew = newPrice.newPrice(newRecord);
+    console.log(ProductNew);
 
     const newProducts = newPrice.newPrice(productsFeatured);
     res.render('client/page/home/index', {
