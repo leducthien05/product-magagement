@@ -16,6 +16,7 @@ const orderSchema = new mongoose.Schema({
             quantity: Number
         }
     ],
+    status: String,
     deleted: {
         type: Boolean,
         default: false
