@@ -38,6 +38,7 @@ block main
                                         type="number"
                                         name="quantity"
                                         value=item.quantity
+                                        product-id = item.product_ID
                                     )
                                 td #{item.totalPrice}
                                 td 
@@ -48,3 +49,5 @@ block main
                                         id-delete = item.product_ID
                                     ) Xóa
                 h3(class="text-right") Tổng đơn hàng: #{product.SumPrice}
+    
+    script(src="/client/JS/cart.script.js") 

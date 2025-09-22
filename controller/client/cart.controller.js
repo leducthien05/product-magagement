@@ -106,3 +106,19 @@ module.exports.delete = async (req, res)=>{
     }
     
 }
+
+module.exports.updateQuantity = async (req,  res)=>{
+    const idCart = req.cookies.cartID;
+    const idProduct = req.params.idProduct;
+    const quantity = req.params.quantity;
+    
+    await Cart.updateOne({
+        _id: idCart,
+        "product.product_ID": idProduct
+    }, {
+        $set: {"product.$.quantity": quantity}
+    });
+
+    req.flash("success", "Cập nhật số lượng thành công");
+    res.redirect("back");
+}
