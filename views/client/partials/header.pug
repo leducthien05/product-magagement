@@ -12,7 +12,7 @@ header(class="header bg-light text-primary py-3 mb-4")
                             width="100"
                         )
 
-            .col-5
+            .col-4
                 form(
                     action="/search"
                     method="GET"
@@ -30,7 +30,7 @@ header(class="header bg-light text-primary py-3 mb-4")
                             class="btn btn-primary"
                         ) Tìm
 
-            .col-5
+            .col-6
                 .inner-menu
                     ul(class="nav justify-content-end")
                         li(class="nav-item")
@@ -49,6 +49,11 @@ header(class="header bg-light text-primary py-3 mb-4")
                             a(href="/cart" class="nav-link text-primary") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
                         li(class="nav-item")
                             a(
-                                href="/admin/dashboard"
+                                href="/user/register"
                                 class="nav-link text-primary"
-                            ) Trang Admin
+                            ) Đăng ký
+                        li(class="nav-item")
+                            a(
+                                href="/user/login"
+                                class="nav-link text-primary"
+                            ) Đăng nhập

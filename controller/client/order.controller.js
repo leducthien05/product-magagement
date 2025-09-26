@@ -66,7 +66,6 @@ module.exports.order = async (req, res)=>{
 
         productInfo.push(objectProduct);
     }
-
     const orderInfo = {
         ID_Cart: ID_Cart,
         userInfo:userinfo,
