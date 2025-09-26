@@ -47,13 +47,21 @@ header(class="header bg-light text-primary py-3 mb-4")
                             +sub-menu(productMiddleware, pathProdutClient)
                         li(class="nav-item")
                             a(href="/cart" class="nav-link text-primary") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
-                        li(class="nav-item")
-                            a(
-                                href="/user/register"
-                                class="nav-link text-primary"
-                            ) Đăng ký
-                        li(class="nav-item")
-                            a(
-                                href="/user/login"
-                                class="nav-link text-primary"
-                            ) Đăng nhập
+                        if(user)
+                            li(class="nav-item")
+                                a(
+                                    href="/user/logout"
+                                    class="nav-link text-primary"
+                                ) Đăng xuất
+                        else
+                            li(class="nav-item")
+                                a(
+                                    href="/user/register"
+                                    class="nav-link text-primary"
+                                ) Đăng ký
+                            li(class="nav-item")
+                                a(
+                                    href="/user/login"
+                                    class="nav-link text-primary"
+                                ) Đăng nhập
+       

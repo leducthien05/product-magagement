@@ -30,7 +30,6 @@ module.exports.detail = async (req, res) =>{
         if (!product) {
             return res.redirect('/404'); 
         }
-        console.log(product);
         if(product.product_category_id){
             const category = await ProductCategory.findOne({
                 deleted: false,

@@ -32,3 +32,54 @@ module.exports.addUser = async (req, res)=>{
 
     res.redirect("/");
 }
+
+module.exports.login = async (req, res)=>{
+    if(req.cookies.tokenUser){
+        res.clearCookie("tokenUser");
+    }
+
+    res.render("client/page/user/login", {
+        titlePage: "Đăng nhập"
+    })
+}
+
+module.exports.loginPost = async (req, res)=>{
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false
+    });
+
+    //Kiểm tra email
+    if(!user){
+        req.flash("error", "Email không tồn tại");
+        res.redirect("back");
+        return;
+    }
+
+    //Kiểm tra mật khẩu
+    if(md5(password) !== user.password ){
+        req.flash("error", "Mật khẩu sai");
+        res.redirect("back");
+        return;
+    }
+
+    //Kiểm tra trạng thái tài khoản
+    if(user.status == "inactive"){
+        req.flash("error", "Tài khoản bị khóa");
+        res.redirect("back");
+        return;
+    }
+    
+    //Gán token 
+    res.cookie("tokenUser", user.tokenUser);
+    res.redirect("/");
+}
+
+module.exports.logout = async (req, res)=>{
+    res.clearCookie("tokenUser");
+    res.clearCookie("cartID");
+    res.redirect("/");
+}

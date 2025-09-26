@@ -15,7 +15,6 @@ module.exports.addProduct = async (req, res)=>{
     });//Tìm kiếm sản phẩm trong database
 
     const exitsProductInCart = productCart.product.find(item => item.product_ID == Productid);
-    console.log(exitsProductInCart);
 
     if(exitsProductInCart){
         const quantitynew = exitsProductInCart.quantity + Productquatity;
@@ -79,7 +78,7 @@ module.exports.index = async (req, res)=>{
 
     //Lấy tổng tiền
     productCart.SumPrice = productCart.product.reduce((sum, item)=>{return sum + item.totalPrice}, 0);
-    console.log(productCart);
+
 
     res.render("client/page/cart/index", {
         titlePage: "Trang giỏ hàng",
@@ -92,7 +91,6 @@ module.exports.delete = async (req, res)=>{
     try {
         const id = req.params.idProduct;
         const idCart = req.cookies.cartID;
-        console.log(idCart);
         await Cart.updateOne({
             _id: idCart
         },{
