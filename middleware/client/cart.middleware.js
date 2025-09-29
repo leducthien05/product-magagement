@@ -19,9 +19,21 @@ module.exports.cart = async (req, res, next)=>{
                 _id: req.cookies.cartID,
                 userID: user._id
             });
-            cart.totalQuantity = cart.product.reduce((sum, item)=> sum += item.quantity,0);
+            if(cart){
+                cart.totalQuantity = cart.product.reduce((sum, item)=> sum += item.quantity,0);
+                res.locals.minicart = cart;
+            }else{
+                const cart = new Cart();
+                cart.userID = user._id;
+                await cart.save();
+
+                //Tạo thời gian sống cho cookie
+                const expireCookie = 365 * 24 * 60 * 60 * 1000;
+                res.cookie("cartID", cart.id, {
+                    expires: new Date(Date.now() + expireCookie)
+                });
+            }
             
-            res.locals.minicart = cart;
         }
     }else{
         if(!req.cookies.cartID){
@@ -38,9 +50,12 @@ module.exports.cart = async (req, res, next)=>{
             const cart = await Cart.findOne({
                 _id: req.cookies.cartID
             });
-            cart.totalQuantity = cart.product.reduce((sum, item)=> sum += item.quantity,0);
+
+            if(cart){
+                cart.totalQuantity = cart.product.reduce((sum, item)=> sum += item.quantity,0); 
+                res.locals.minicart = cart;
+            }
             
-            res.locals.minicart = cart;
         }
     }
     next();
