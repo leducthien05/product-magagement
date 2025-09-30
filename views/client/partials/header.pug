@@ -48,12 +48,18 @@ header(class="header bg-light text-primary py-3 mb-4")
                         li(class="nav-item")
                             a(href="/cart" class="nav-link text-primary") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
                         if(user)
+                            li(class = "nab-item")
+                                a(
+                                    href="/user/info"
+                                    class="nav-link text-primary"
+                                ) Thông tin
                             li(class="nav-item")
                                 a(
                                     href="/user/logout"
                                     class="nav-link text-primary"
                                 ) Đăng xuất
                         else
+                            
                             li(class="nav-item")
                                 a(
                                     href="/user/register"

@@ -1,5 +1,6 @@
 const User = require("../../model/users.model");
 const PasswordForgot = require("../../model/passwordForgot.model");
+const Cart = require("../../model/cart.model");
 
 const md5 = require('md5');
 const generateHelper = require("../../helper/generate");
@@ -76,7 +77,19 @@ module.exports.loginPost = async (req, res)=>{
         res.redirect("back");
         return;
     }
-    
+
+
+    const result = await Cart.findOne({
+        userID: user._id
+    });
+
+    if(result){
+        res.cookie("cartID", result._id);
+    }else{
+        await Cart.updateOne({
+            _id: req.cookies.cartID
+        }, {userID: user._id})
+    }
     //Gán token 
     res.cookie("tokenUser", user.tokenUser);
     res.redirect("/");
@@ -174,4 +187,17 @@ module.exports.resetPasswordPost = async (req, res)=>{
     });
 
     res.redirect("/");
+}
+
+module.exports.info = async (req, res)=>{
+    const tokenUser = req.cookies.tokenUser;
+     
+    const user = await User.findOne({
+        tokenUser: tokenUser
+    }).select("-password");
+
+    res.render("client/page/user/info", {
+        titlePage: "Thông tin cá nhân",
+        user: user
+    });
 }
