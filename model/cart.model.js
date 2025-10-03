@@ -19,6 +19,6 @@ const cartSchema = new mongoose.Schema(
     }
 );
 
-const Carts = mongoose.model('carts', cartSchema, "carts");
+const Carts = mongoose.model('Carts', cartSchema, "carts");
 //kết nối ra bên ngoài
 module.exports = Carts;
