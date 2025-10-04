@@ -62,6 +62,11 @@ app.set('view engine', 'pug');
 // -------------------- Router --------------------
 clientRouter(app);
 adminRouter(app);
+app.get("*", (req, res)=>{
+  res.render("client/page/error/404", {
+    title: "404 Not Found"
+  })
+})
 
 // -------------------- Server --------------------
 app.listen(port, () => {

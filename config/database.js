@@ -6,6 +6,7 @@ module.exports.connect = async () =>{
         console.log("connect Success");
         
     }catch (error) {
+        console.log(error);
         console.log("Error");
     }
 }
